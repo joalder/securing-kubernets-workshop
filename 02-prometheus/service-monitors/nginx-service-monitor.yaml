@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nginx-ingress
+  labels:
+    app: nginx-ingress
+spec:
+  endpoints:
+  - interval: 30s
+    port: metrics
+  selector:
+    matchLabels:
+      app: nginx-ingress
+      release: nginx-ingress
+  namespaceSelector:
+    matchNames:
+    - curler
