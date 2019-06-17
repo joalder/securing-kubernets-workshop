@@ -16,3 +16,13 @@ spec:
       node.master: true
       node.data: true
       node.ingest: true
+    volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 8Gi
+        storageClassName: standard

@@ -1,0 +1,38 @@
+[
+  {
+    "_id": "68344eb0-9115-11e9-8387-c944e8b344b4",
+    "_type": "search",
+    "_source": {
+      "title": "Curler Pods",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "log",
+        "kubernetes.pod_name"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"query\":\"!\\\"kube-probe/1.13\\\"\",\"language\":\"lucene\"},\"filter\":[{\"meta\":{\"negate\":false,\"type\":\"phrase\",\"key\":\"kubernetes.labels.app_kubernetes_io/instance\",\"value\":\"curler\",\"params\":{\"query\":\"curler\"},\"disabled\":false,\"alias\":null,\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match\":{\"kubernetes.labels.app_kubernetes_io/instance\":{\"query\":\"curler\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+      }
+    },
+    "_migrationVersion": {
+      "search": "7.0.0"
+    },
+    "_references": [
+      {
+        "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+        "type": "index-pattern",
+        "id": "347b7e40-9115-11e9-8387-c944e8b344b4"
+      },
+      {
+        "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+        "type": "index-pattern",
+        "id": "347b7e40-9115-11e9-8387-c944e8b344b4"
+      }
+    ]
+  }
+]

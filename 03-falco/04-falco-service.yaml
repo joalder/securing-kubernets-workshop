@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: falco-service
+  namespace: monitoring
+  labels:
+    app: falco
+    role: security
+spec:
+  selector:
+    app: falco
+  ports:
+  - protocol: TCP
+    port: 8765
