@@ -64,8 +64,11 @@ spec:
         effect: NoSchedule
       containers:
       - name: fluentd
-        image: quay.io/4armed/fluentd-kubernetes-daemonset:latest
+        image: quay.io/4armed/fluentd-kubernetes-daemonset@sha256:6c21d146ec63b6cfc3c30ace7ff195fed63d938840f8a64432de4f7e38c6c7d1
+        imagePullPolicy: Always
         env:
+          - name: FLUENT_LOG_LEVEL
+            value: warn
           - name: FLUENT_UID
             value: "0"
           - name: FLUENT_ELASTICSEARCH_SCHEME
