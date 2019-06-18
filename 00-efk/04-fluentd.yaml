@@ -64,7 +64,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: fluentd
-        image: fluent/fluentd-kubernetes-daemonset:v1.4-debian-elasticsearch-1
+        image: quay.io/4armed/fluentd-kubernetes-daemonset:latest
         env:
           - name: FLUENT_UID
             value: "0"
@@ -97,6 +97,8 @@ spec:
         - name: varlibdockercontainers
           mountPath: /var/lib/docker/containers
           readOnly: true
+        - mountPath: /fluentd/etc
+          name: fluentd-config
       terminationGracePeriodSeconds: 30
       volumes:
       - name: varlog
@@ -105,3 +107,6 @@ spec:
       - name: varlibdockercontainers
         hostPath:
           path: /var/lib/docker/containers
+      - name: fluentd-config
+        configMap:
+          name: fluentd-config
