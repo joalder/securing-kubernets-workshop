@@ -106,6 +106,7 @@ spec:
           operator: Exists
         - effect: NoExecute
           operator: Exists
+      priorityClassName: system-node-critical
       serviceAccountName: istio-cni
       # Minimize downtime during a rolling upgrade or deletion; tell Kubernetes to do a "force
       # deletion": https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods.
@@ -114,7 +115,7 @@ spec:
         # This container installs the Istio CNI binaries
         # and CNI network config file on each node.
         - name: install-cni
-          image: gcr.io/istio-release/install-cni:master-latest-daily
+          image: gcr.io/istio-release/install-cni:release-1.2-latest-daily
           imagePullPolicy: Always
           command: ["/install-cni.sh"]
           env:

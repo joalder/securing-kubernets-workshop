@@ -11,7 +11,7 @@ install-efk: config-fluentd
 	@kubectl apply -f manifests/04-fluentd.yaml
 
 kibana-password:
-	@kubectl -n efk get secret azathoth-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode
+	@kubectl -n efk get secret azathoth-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
 
 reconfigure-fluentd:
 	@kubectl -n $(NAMESPACE) create configmap fluentd-config --from-file=fluentd-etc -o yaml --dry-run > manifests/03-fluentd-configmap.yaml
