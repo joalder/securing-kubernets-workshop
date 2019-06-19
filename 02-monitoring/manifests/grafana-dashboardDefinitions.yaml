@@ -863,7 +863,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,
@@ -1806,7 +1806,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,
@@ -3296,7 +3296,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,
@@ -4216,7 +4216,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,
@@ -5179,7 +5179,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,
@@ -6072,7 +6072,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,
@@ -7082,7 +7082,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,
@@ -8451,7 +8451,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,
@@ -8982,7 +8982,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,
@@ -9620,7 +9620,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,
@@ -10556,7 +10556,7 @@ items:
                   {
                       "current": {
                           "text": "Prometheus",
-                          "value": "Prometheus"
+                          "value": "prometheus"
                       },
                       "hide": 0,
                       "label": null,

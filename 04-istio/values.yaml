@@ -48,8 +48,9 @@ tracing:
 kiali:
   enabled: true
   prometheusAddr: http://prometheus.monitoring:9090
-  # dashboard:
-  #   grafanaURL: http://grafana.monitoring:3000
+  dashboard:
+    jaegerURL: http://jaeger-query:16686
+    grafanaURL: http://grafana.monitoring:3000
 
 istio_cni:
   enabled: true
