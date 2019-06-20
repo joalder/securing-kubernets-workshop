@@ -33,3 +33,5 @@ spec:
   additionalScrapeConfigs:
     name: istio-prometheus-config
     key: istio-prometheus-scrape-config.yaml
+  secrets:
+  - istio.default

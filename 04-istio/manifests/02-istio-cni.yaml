@@ -31,7 +31,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: istio-cni
-  namespace: istio-system
+  namespace: kube-system
 
 ---
 # This ConfigMap is used to configure a self-hosted Istio CNI installation.
@@ -39,7 +39,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: istio-cni-config
-  namespace: istio-system
+  namespace: kube-system
   labels:
     chart: istio-cni-0.1.0
     release: istio-cni
@@ -68,7 +68,7 @@ kind: DaemonSet
 apiVersion: extensions/v1beta1
 metadata:
   name: istio-cni-node
-  namespace: istio-system
+  namespace: kube-system
   labels:
     k8s-app: istio-cni-node
     chart: istio-cni-0.1.0
@@ -146,5 +146,5 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-cni
-  namespace: istio-system
+  namespace: kube-system
 

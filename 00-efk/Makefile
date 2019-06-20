@@ -3,7 +3,7 @@ NAMESPACE=efk
 config-fluentd:
 	@kubectl -n $(NAMESPACE) create configmap fluentd-config --from-file=fluentd-etc -o yaml --dry-run > manifests/03-fluentd-configmap.yaml
 
-install-efk: config-fluentd
+install: config-fluentd
 	@kubectl apply -f manifests/00-elastic-crds.yaml
 	@kubectl apply -f manifests/01-elastic-cluster.yaml
 	@kubectl apply -f manifests/02-kibana.yaml

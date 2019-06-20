@@ -11,7 +11,7 @@ istio-init:
 	@helm template istio-$(ISTIO_VERSION)/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system --set certmanager.enabled=true > manifests/01-istio-init.yaml
 
 istio-cni:
-	@helm template istio-$(ISTIO_VERSION)/install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system -f istio-$(ISTIO_VERSION)/install/kubernetes/helm/istio-cni/values_gke.yaml > manifests/02-istio-cni.yaml
+	@helm template istio-$(ISTIO_VERSION)/install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system -f istio-$(ISTIO_VERSION)/install/kubernetes/helm/istio-cni/values_gke.yaml > manifests/02-istio-cni.yaml
 
 istio-init-check:
 	@printf "[*] checking Istio CRDs "
@@ -23,10 +23,11 @@ istio-prepare: istio-init
 	@kubectl apply -f manifests/01-istio-init.yaml
 
 istio:
-	@helm template istio-$(ISTIO_VERSION)/install/kubernetes/helm/istio --name istio --namespace istio-system -f values.yaml > manifests/03-istio.yaml
+	@helm template istio-$(ISTIO_VERSION)/install/kubernetes/helm/istio --name istio --namespace istio-system -f istio-values.yaml > manifests/03-istio.yaml
 
-install: istio-prepare istio-init-check
+install: istio-prepare istio-init-check istio-cni istio
 	@kubectl apply -f manifests/02-istio-cni.yaml
+	@kubectl apply -f manifests/02-kiali-secret.yaml
 	@kubectl apply -f manifests/03-istio.yaml
 
 uninstall:

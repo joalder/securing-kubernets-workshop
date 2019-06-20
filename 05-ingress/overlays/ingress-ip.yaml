@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-ingressgateway
+spec:
+  loadBalancerIP: "35.234.87.231"
+  externalTrafficPolicy: "Local"
