@@ -8,6 +8,7 @@ ls:
 	helm ls
 
 helm-update:
+	helm repo add 4armed http://helm.4armed.io
 	helm repo update
 
 deploy-v1: helm-update
