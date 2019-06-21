@@ -9,8 +9,10 @@ install-operator:
 config-fluentd:
 	@kubectl -n $(NAMESPACE) create configmap fluentd-config --from-file=fluentd-etc -o yaml --dry-run > manifests/03-fluentd-configmap.yaml
 
-install: config-fluentd
+install-es:
 	@kubectl apply -f manifests/01-elastic-cluster.yaml
+
+install-kf: config-fluentd
 	@kubectl apply -f manifests/02-kibana.yaml
 	@kubectl apply -f manifests/03-fluentd-configmap.yaml
 	@kubectl apply -f manifests/04-fluentd.yaml
