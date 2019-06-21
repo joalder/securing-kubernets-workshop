@@ -1,6 +1,14 @@
 include ../.env
 export
 
+ifndef ENVIRONMENT_ID
+$(error ENVIRONMENT_ID is not set)
+endif
+
+ifndef PROJECT_ID
+$(error PROJECT_ID is not set)
+endif
+
 CURLER_IMAGE_V1=eu.gcr.io/$(PROJECT_ID)/curler:v1
 CURLER_IMAGE_V2=eu.gcr.io/$(PROJECT_ID)/curler:v2
 

@@ -2,8 +2,9 @@ NAMESPACE=efk
 
 install-operator:
 	@kubectl apply -f manifests/00-elastic-operator.yaml
-	@echo "Wait for Operator to come up"
-	@echo "kubectl -n elastic-system logs -f statefulset.apps/elastic-operator"
+	@echo "[*] wait for Operator to come up"
+	@echo "[*] use: kubectl -n elastic-system logs -f statefulset.apps/elastic-operator"
+	@echo "[*] then: make install"
 
 config-fluentd:
 	@kubectl -n $(NAMESPACE) create configmap fluentd-config --from-file=fluentd-etc -o yaml --dry-run > manifests/03-fluentd-configmap.yaml
