@@ -1,0 +1,89 @@
+gateways:
+  enabled: true
+  istio-ingressgateway:
+    enabled: true
+    sds:
+      enabled: true
+    autoscaleEnabled: false
+  istio-egressgateway:
+    enable: true
+    autoscaleEnabled: false
+
+certmanager:
+  enabled: true
+  email: security@4armed.com
+
+sidecarInjectorWebhook:
+  enabled: true
+  rewriteAppHTTPProbe: false
+
+galley:
+  enabled: true
+
+mixer:
+  enabled: true
+  policy:
+    enabled: true
+
+  telemetry:
+    enabled: true
+
+pilot:
+  enabled: true
+
+security:
+  enabled: true
+
+grafana:
+  enabled: false
+
+prometheus:
+  enabled: true
+
+servicegraph:
+  enabled: false
+
+tracing:
+  enabled: true
+
+kiali:
+  enabled: true
+  prometheusAddr: http://prometheus:9090
+  dashboard:
+    jaegerURL: http://jaeger-query:16686
+    grafanaURL: http://grafana.monitoring:3000
+
+istio_cni:
+  enabled: true
+
+nodeagent:
+  enabled: true
+  image: node-agent-k8s
+  env:
+    CA_PROVIDER: "Citadel"
+    CA_ADDR: "istio-citadel:8060"
+    VALID_TOKEN: true
+
+global:
+  controlPlaneSecurityEnabled: false
+
+  mtls:
+    enabled: true
+
+  sds:
+    enabled: true
+    udsPath: "unix:/var/run/sds/uds_path"
+    useNormalJwt: true
+
+  k8sIngress:
+    enabled: false
+    enableHttps: false
+
+  proxy:
+    privileged: false
+    accessLogFile: "/dev/stdout"
+    accessLogEncoding: JSON
+
+  imagePullPolicy: Always
+  outboundTrafficPolicy:
+    mode: ALLOW_ANY
