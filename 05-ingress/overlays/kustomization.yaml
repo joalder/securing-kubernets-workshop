@@ -1,7 +1,0 @@
-bases:
-- ../../04-istio/manifests
-resources:
-- gateway.yaml
-- virtualservice.yaml
-patchesStrategicMerge:
-- ingress-ip.yaml

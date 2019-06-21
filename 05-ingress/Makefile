@@ -24,8 +24,8 @@ check-nginx-ingress: remove-nginx
 	@echo " done"
 
 install: kustomize check-nginx-ingress
-	@kubectl apply -f manifests/00-istio.yaml
 	# To force recreation with the correct IP
-	# @kubectl -n istio-system delete service istio-ingressgateway
+	@kubectl -n istio-system delete service istio-ingressgateway
+	@kubectl apply -f manifests/00-istio.yaml
 
 

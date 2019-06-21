@@ -38,7 +38,6 @@ uninstall:
 
 enable-curler-sidecar:
 	@kubectl label namespace curler istio-injection=enabled
-	@kubectl -n curler delete pods -l app=redis
 	@kubectl -n curler delete pods -l app=nginx-ingress
 	@kubectl -n curler delete pods -l app.kubernetes.io/instance=curler
 
