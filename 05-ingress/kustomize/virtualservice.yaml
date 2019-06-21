@@ -7,7 +7,7 @@ spec:
   hosts:
   - "curler.$ENVIRONMENT_ID.4armed.rocks"
   gateways:
-  - securing-gke-gateway
+  - istio-system/securing-gke-gateway
   http:
   - match:
     - uri:
