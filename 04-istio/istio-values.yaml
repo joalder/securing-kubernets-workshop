@@ -35,7 +35,7 @@ security:
   enabled: true
 
 grafana:
-  enabled: false
+  enabled: true
 
 prometheus:
   enabled: true
