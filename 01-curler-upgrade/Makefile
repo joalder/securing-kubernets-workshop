@@ -20,7 +20,7 @@ helm-update:
 	helm repo update
 
 deploy-v1: helm-update
-	helm upgrade curler 4armed/curler --set global.backend_image=$(CURLER_IMAGE_V1)
+	helm upgrade curler 4armed/curler --set global.backend_image=$(CURLER_IMAGE_V1) --reuse-values
 
 deploy-v2: helm-update
-	helm upgrade curler 4armed/curler --set global.backend_image=$(CURLER_IMAGE_V2)
+	helm upgrade curler 4armed/curler --set global.backend_image=$(CURLER_IMAGE_V2) --reuse-values
