@@ -32,3 +32,6 @@ install: kustomize
 
 clone:
 	@gcloud source repos clone flux --project=$(PROJECT_ID)
+
+copy-manifests:
+	@for i in 00-efk 02-istio 03-ingress; do mkdir flux/$$i; cp ../$$i/manifests/*.yaml flux/$$i/; done
