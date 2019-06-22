@@ -15,7 +15,7 @@ FLUX_SSH_PUB_KEY=flux-ssh-key.pub
 
 download-flux:
 	@if [ -d "./${FLUX_DEPLOY_DIR}" ]; then rm -rf ./${FLUX_DEPLOY_DIR}; mkdir ./$(FLUX_DEPLOY_DIR); else mkdir ./$(FLUX_DEPLOY_DIR); fi
-	@curl -sL https://github.com/weaveworks/flux/archive/1.13.0.tar.gz | $(TAR) xz -f - -C ${FLUX_DEPLOY_DIR} flux-$(FLUX_VERSION)/deploy --strip-components=2
+	@curl -sL https://github.com/weaveworks/flux/archive/$(FLUX_VERSION).tar.gz | $(TAR) xz -f - -C ${FLUX_DEPLOY_DIR} flux-$(FLUX_VERSION)/deploy --strip-components=2
 
 create-overlays:
 	@cp kustomize/flux-kustomization.yaml $(FLUX_DEPLOY_DIR)/kustomization.yaml
@@ -31,4 +31,4 @@ install: kustomize
 	@cat $(FLUX_SSH_PUB_KEY)
 
 clone:
-	@gcloud source repos clone flux --project=securing-gke-0
+	@gcloud source repos clone flux --project=$(PROJECT_ID)
