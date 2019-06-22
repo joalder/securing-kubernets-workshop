@@ -12,4 +12,4 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "curler.$ENVIRONMENT_ID.4armed.rocks"
+    - "*.$ENVIRONMENT_ID.4armed.rocks"

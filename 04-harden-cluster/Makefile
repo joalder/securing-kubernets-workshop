@@ -9,6 +9,17 @@ ifndef PROJECT_ID
 $(error PROJECT_ID is not set)
 endif
 
+CURLER_IMAGE_V2=eu.gcr.io/$(PROJECT_ID)/curler:v2
+
+helm-update:
+	helm repo add 4armed http://helm.4armed.io
+	helm repo update
+
+shift-workload: helm-update
+	helm upgrade curler 4armed/curler \
+		--reuse-values \
+		--set worker.nodeSelector.cloud.google.com/gke-nodepool=secure-pool
+
 create-cluster-one:
 	@gcloud beta container --project "${PROJECT_ID}" clusters create "one" \
 		 --zone "europe-west3-a" \
