@@ -15,10 +15,13 @@ helm-update:
 	helm repo add 4armed http://helm.4armed.io
 	helm repo update
 
-shift-workload: helm-update
+shift-workload:
+	@kubectl -n curler patch deployments curler-worker -p '{"spec": {"template": {"spec": {"nodeSelector": {"cloud.google.com/gke-nodepool": "secure-pool"}}}}}'
+
+helm-shift-workload: helm-update
 	helm upgrade curler 4armed/curler \
 		--reuse-values \
-		--set worker.nodeSelector.cloud.google.com/gke-nodepool=secure-pool
+		-f shift-workload-values.yaml
 
 create-cluster-one:
 	@gcloud beta container --project "${PROJECT_ID}" clusters create "one" \
