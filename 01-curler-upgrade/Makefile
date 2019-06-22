@@ -15,6 +15,9 @@ CURLER_IMAGE_V2=eu.gcr.io/$(PROJECT_ID)/curler:v2
 ls:
 	helm ls
 
+curler-delete:
+	helm delete curler --purge
+
 helm-update:
 	helm repo add 4armed http://helm.4armed.io
 	helm repo update
@@ -24,3 +27,9 @@ deploy-v1: helm-update
 
 deploy-v2: helm-update
 	helm upgrade curler 4armed/curler --set global.backend_image=$(CURLER_IMAGE_V2) --reuse-values
+
+redeploy-v1: curler-delete helm-update
+	helm install --name=curler --namespace=curler --set image=eu.gcr.io/$(PROJECT_ID)/curler-fe:v1 --set global.backend_image=eu.gcr.io/$(PROJECT_ID)/curler:v1 --set ingress.hostname=curler.$(ENVIRONMENT_ID).4armed.rocks --set replicaCount=1 --set global.redis.ip=$(REDIS_IP) 4armed/curler
+
+redeploy-v2: curler-delete helm-update
+	helm install --name=curler --namespace=curler --set image=eu.gcr.io/$(PROJECT_ID)/curler-fe:v1 --set global.backend_image=eu.gcr.io/$(PROJECT_ID)/curler:v2 --set ingress.hostname=curler.$(ENVIRONMENT_ID).4armed.rocks --set replicaCount=1 --set global.redis.ip=$(REDIS_IP) 4armed/curler

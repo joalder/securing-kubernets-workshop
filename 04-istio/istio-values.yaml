@@ -6,7 +6,7 @@ gateways:
       enabled: true
     autoscaleEnabled: false
   istio-egressgateway:
-    enable: false
+    enabled: false
     autoscaleEnabled: false
 
 certmanager:
