@@ -1,7 +1,7 @@
-04-istio/istio-1.*
-04-istio/overlays
-04-istio/manifests/**
-05-ingress/overlays/gateway.yaml
-05-ingress/overlays/ingress-ip.yaml
-05-ingress/overlays/virtualservice.yaml
-05-ingress/manifests/**
+0*-istio/istio-1.*
+0*-istio/overlays
+0*-istio/manifests/**
+0*-ingress/overlays/gateway.yaml
+0*-ingress/overlays/ingress-ip.yaml
+0*-ingress/overlays/virtualservice.yaml
+0*-ingress/manifests/**
