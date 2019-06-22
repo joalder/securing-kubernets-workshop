@@ -1,5 +1,6 @@
 04-istio/istio-1.*
 04-istio/overlays
+04-istio/manifests/**
 05-ingress/overlays/gateway.yaml
 05-ingress/overlays/ingress-ip.yaml
 05-ingress/overlays/virtualservice.yaml
