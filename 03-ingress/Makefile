@@ -2,7 +2,7 @@ include ../.env
 export
 
 #EXTERNAL_IP=$$(kubectl -n curler get svc ingress-nginx-ingress-controller -o jsonpath='{.status.loadBalancer.ingress[].ip}')
-EXTERNAL_IP=$$(dig +short curler.$$ENVIRONMENT_ID.4armed.rocks.)
+# EXTERNAL_IP=$$(dig +short curler.$$ENVIRONMENT_ID.4armed.rocks.)
 
 loadbalancer-ip:
 	@echo $(EXTERNAL_IP)

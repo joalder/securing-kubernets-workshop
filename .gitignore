@@ -6,4 +6,8 @@
 0*-ingress/overlays/ingress-ip.yaml
 0*-ingress/overlays/virtualservice.yaml
 0*-ingress/manifests/**
+0*-flux/base
 0*-flux/flux
+0*-flux/fluxctl
+0*-flux/manifests/**
+0*-flux/flux-ssh-key.pub
