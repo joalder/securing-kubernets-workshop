@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      containers:
+      - name: grafana
+        volumeMounts:
+        - mountPath: /grafana-dashboard-definitions/istio/galley-dashboard
+          name: grafana-galley-dashboard
+        - mountPath: /grafana-dashboard-definitions/istio/istio-mesh-dashboard
+          name: grafana-istio-mesh-dashboard
+        - mountPath: /grafana-dashboard-definitions/istio/istio-performance-dashboard
+          name: grafana-istio-performance-dashboard
+        - mountPath: /grafana-dashboard-definitions/istio/istio-service-dashboard
+          name: grafana-istio-service-dashboard
+        - mountPath: /grafana-dashboard-definitions/istio/istio-workload-dashboard
+          name: grafana-istio-workload-dashboard
+        - mountPath: /grafana-dashboard-definitions/istio/mixer-dashboard
+          name: grafana-mixer-dashboard
+        - mountPath: /grafana-dashboard-definitions/istio/pilot-dashboard
+          name: grafana-pilot-dashboard

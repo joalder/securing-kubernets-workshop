@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      volumes:
+      - configMap:
+          name: grafana-galley-dashboard
+        name: grafana-galley-dashboard
+      - configMap:
+          name: grafana-istio-mesh-dashboard
+        name: grafana-istio-mesh-dashboard
+      - configMap:
+          name: grafana-istio-performance-dashboard
+        name: grafana-istio-performance-dashboard
+      - configMap:
+          name: grafana-istio-service-dashboard
+        name: grafana-istio-service-dashboard
+      - configMap:
+          name: grafana-istio-workload-dashboard
+        name: grafana-istio-workload-dashboard
+      - configMap:
+          name: grafana-mixer-dashboard
+        name: grafana-mixer-dashboard
+      - configMap:
+          name: grafana-pilot-dashboard
+        name: grafana-pilot-dashboard

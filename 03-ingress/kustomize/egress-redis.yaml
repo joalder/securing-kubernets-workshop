@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: redis
+  namespace: curler
+spec:
+  hosts:
+  - redis
+  addresses:
+  - 10.0.16.3/32
+  ports:
+  - number: 6379
+    name: redis
+    protocol: TCP
+  resolution: NONE
+  location: MESH_EXTERNAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+ name: "redis"
+ namespace: "curler"
+spec:
+ host: "redis"
+ trafficPolicy:
+   tls:
+     mode: DISABLE
