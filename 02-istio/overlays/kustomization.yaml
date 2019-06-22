@@ -1,5 +1,0 @@
-bases:
-- ../../02-monitoring/manifests
-patchesStrategicMerge:
-  - grafana-deployment-configmaps.yaml
-  - grafana-deployment-volumes.yaml
