@@ -1,0 +1,4 @@
+bases:
+- ../flux/deploy
+patchesStrategicMerge:
+- deployment.yaml

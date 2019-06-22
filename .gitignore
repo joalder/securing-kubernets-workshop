@@ -1,7 +1,9 @@
 0*-istio/istio-1.*
 0*-istio/overlays
-0*-istio/manifests/**
+0*-istio/manifests/02-istio-cni.yaml
+0*-istio/manifests/03-istio.yaml
 0*-ingress/overlays/gateway.yaml
 0*-ingress/overlays/ingress-ip.yaml
 0*-ingress/overlays/virtualservice.yaml
 0*-ingress/manifests/**
+0*-flux/flux

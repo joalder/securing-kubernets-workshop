@@ -1,5 +1,5 @@
 bases:
-- ../../04-istio/manifests
+- ../../02-istio/manifests
 resources:
 - gateway.yaml
 - virtualservice.yaml
