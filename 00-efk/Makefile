@@ -3,7 +3,7 @@ NAMESPACE=efk
 help:
 	@echo "install-operator: Installs the Elastic Operator into the elastic-system namespace\n"
 	@echo "install-es: Installs an Elasticsearch cluster with a single node and PVC\n"
-	@echo "install-kf: Installs an instance of Kibana and creates a Fluentd Daemonset to send \nlogs from each node to our Elasticsearch cluster\n"
+	@echo "install-kf: Installs an instance of Kibana and creates a Fluentd Daemonset to send \n\tlogs from each node to our Elasticsearch cluster\n"
 	@echo "kibana-password: Retrieves the randomly generated password for Kibana from the Kubernetes Secret\n"
 
 install-operator:
