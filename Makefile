@@ -29,3 +29,6 @@ prom-pf:
 
 grafana-pf:
 	kubectl -n monitoring port-forward service/grafana 3000
+
+flux-logs:
+	kubectl -n kube-system logs -l name=flux -f

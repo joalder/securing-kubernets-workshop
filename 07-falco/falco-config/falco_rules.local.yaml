@@ -29,3 +29,5 @@
 #   tags: [users, container]
 
 # Or override/append to any rule, macro, or list from the Default Rules
+- macro: allowed_clear_log_files
+  condition: (k8s.pod.name startswith fluentd)

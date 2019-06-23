@@ -9,6 +9,7 @@ ifndef PROJECT_ID
 $(error PROJECT_ID is not set)
 endif
 
+FLUX_DIR=../flux
 FLUX_VERSION=1.13.0
 FLUX_BASE_DIR=base/flux
 FLUX_OVERLAY_DIR=overlays/flux
@@ -34,13 +35,14 @@ install: kustomize
 	@cat $(FLUX_SSH_PUB_KEY)
 
 clone:
-	@gcloud source repos clone flux --project=$(PROJECT_ID)
+	@echo "Flux directory is $(FLUX_DIR)"
+	@gcloud source repos clone flux $(FLUX_DIR) --project=$(PROJECT_ID)
 
 copy-manifests:
-	@for i in 00-efk 03-ingress; do mkdir flux/$$i; cp ../$$i/manifests/*.yaml flux/$$i/; done
-	@echo "Manifests copied to flux"
+	@for i in 00-efk 03-ingress; do mkdir $(FLUX_DIR)/$$i; cp ../$$i/manifests/*.yaml $(FLUX_DIR)/$$i/; done
+	@echo "Manifests copied to $(FLUX_DIR)"
 	@echo "Now add and commit them"
-	@echo "cd flux"
+	@echo "cd $(FLUX_DIR)"
 	@echo "git add ."
 	@echo "git commit -m 'Initial commit'"
 	@echo "git push -u origin master"
@@ -52,6 +54,7 @@ helm-update:
 	@helm repo update
 
 helm-fetch: helm-update
+	@rm curler-*.tgz
 	@helm fetch 4armed/curler
 	@tar xzf curler-*.tgz
 
@@ -65,7 +68,7 @@ curler-rm:
 curler-dir:
 	@if [ ! -d "$(CURLER_BASE_DIR)" ]; then mkdir -p $(CURLER_BASE_DIR); fi
 	@if [ ! -d "$(CURLER_OVERLAY_DIR)" ]; then mkdir -p $(CURLER_OVERLAY_DIR); fi
-	@if [ ! -d "flux/04-curler" ]; then mkdir flux/04-curler; fi
+	@if [ ! -d "$(FLUX_DIR)/04-curler" ]; then mkdir $(FLUX_DIR)/04-curler; fi
 	@echo "resources:\n- curler.yaml" > $(CURLER_BASE_DIR)/kustomization.yaml
 
 helm-template: helm-fetch curler-dir
@@ -80,10 +83,10 @@ helm-template: helm-fetch curler-dir
 
 kustomize-curler: helm-template
 	@cp kustomize/curler-kustomization.yaml $(CURLER_OVERLAY_DIR)/kustomization.yaml
-	@kubectl kustomize $(CURLER_OVERLAY_DIR) > flux/04-curler/01-curler.yaml
+	@kubectl kustomize $(CURLER_OVERLAY_DIR) > $(FLUX_DIR)/04-curler/01-curler.yaml
 
 curler: kustomize-curler
 	@echo 
-	@cp kustomize/curler-namespace.yaml flux/04-curler/00-namespace.yaml
-	@cd flux; git add 04-curler; git commit -m 'cURLer update'; git push -u origin master
+	@cp kustomize/curler-namespace.yaml $(FLUX_DIR)/04-curler/00-namespace.yaml
+	@cd $(FLUX_DIR); git add 04-curler; git commit -m 'cURLer update'; git push -u origin master
 	@fluxctl sync

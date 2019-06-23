@@ -88,8 +88,8 @@ data:
       actions:
         - log
         - alert
-      rate: .03333
-      max_burst: 10
+      rate: .02
+      max_burst: 30
 
     # A throttling mechanism implemented as a token bucket limits the
     # rate of falco notifications. This throttling is controlled by the following configuration
@@ -202,6 +202,8 @@ data:
     #   tags: [users, container]
 
     # Or override/append to any rule, macro, or list from the Default Rules
+    - macro: allowed_clear_log_files
+      condition: (k8s.pod.name startswith fluentd)
   falco_rules.yaml: "#\n# Copyright (C) 2016-2018 Draios Inc dba Sysdig.\n#\n# This
     file is part of falco.\n#\n# Licensed under the Apache License, Version 2.0 (the
     \"License\");\n# you may not use this file except in compliance with the License.\n#

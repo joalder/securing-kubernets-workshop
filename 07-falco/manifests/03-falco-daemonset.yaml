@@ -18,7 +18,7 @@ spec:
         cloud.google.com/gke-os-distribution: ubuntu
       containers:
         - name: falco
-          image: falcosecurity/falco:dev
+          image: falcosecurity/falco:latest
           securityContext:
             privileged: true
 # Uncomment the 3 lines below to enable eBPF support for Falco.
