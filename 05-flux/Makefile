@@ -30,6 +30,7 @@ kustomize-flux: create-overlays
 
 install: kustomize
 	@kubectl apply -f manifests/
+	@sleep 5
 	@fluxctl identity > $(FLUX_SSH_PUB_KEY)
 	@echo "\nAdd the following public key at https://source.cloud.google.com/user/ssh_keys?register=true\n"
 	@cat $(FLUX_SSH_PUB_KEY)
