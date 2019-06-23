@@ -13,6 +13,8 @@ FLUX_VERSION=1.13.0
 FLUX_BASE_DIR=base/flux
 FLUX_OVERLAY_DIR=overlays/flux
 FLUX_SSH_PUB_KEY=flux-ssh-key.pub
+CURLER_BASE_DIR=base/curler
+CURLER_OVERLAY_DIR=overlays/curler
 
 download-flux:
 	@if [ -d "./${FLUX_BASE_DIR}" ]; then rm -rf ./${FLUX_BASE_DIR}; mkdir -p ./$(FLUX_BASE_DIR); else mkdir -p ./$(FLUX_BASE_DIR); fi
@@ -61,7 +63,10 @@ curler-rm:
 	helm delete curler --purge
 
 curler-dir:
+	@if [ ! -d "$(CURLER_BASE_DIR)" ]; then mkdir -p $(CURLER_BASE_DIR); fi
+	@if [ ! -d "$(CURLER_OVERLAY_DIR)" ]; then mkdir -p $(CURLER_OVERLAY_DIR); fi
 	@if [ ! -d "flux/04-curler" ]; then mkdir flux/04-curler; fi
+	@echo "resources:\n- curler.yaml" > $(CURLER_BASE_DIR)/kustomization.yaml
 
 helm-template: helm-fetch curler-dir
 	@helm template --name=curler --namespace=curler \
@@ -71,10 +76,14 @@ helm-template: helm-fetch curler-dir
 			--set replicaCount=1 \
 			--set global.redis.ip=$(REDIS_IP) \
 			--set ingress.enabled=false \
-			curler > base/curler.yaml
+			curler > $(CURLER_BASE_DIR)/curler.yaml
 
-curler: helm-template
+kustomize-curler: helm-template
+	@cp kustomize/curler-kustomization.yaml $(CURLER_OVERLAY_DIR)/kustomization.yaml
+	@kubectl kustomize $(CURLER_OVERLAY_DIR) > flux/04-curler/01-curler.yaml
+
+curler: kustomize-curler
 	@echo 
 	@cp kustomize/curler-namespace.yaml flux/04-curler/00-namespace.yaml
-	@cd flux; git add 04-curler; git commit -m 'Add curler'; git push -u origin master
+	@cd flux; git add 04-curler; git commit -m 'cURLer update'; git push -u origin master
 	@fluxctl sync
