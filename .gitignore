@@ -11,3 +11,5 @@
 0*-flux/fluxctl
 0*-flux/manifests/**
 0*-flux/flux-ssh-key.pub
+0*-flux/curler
+0*-flux/curler-*.tgz

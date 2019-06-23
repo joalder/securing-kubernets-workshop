@@ -10,19 +10,20 @@ $(error PROJECT_ID is not set)
 endif
 
 FLUX_VERSION=1.13.0
-FLUX_DEPLOY_DIR=base
+FLUX_BASE_DIR=base/flux
+FLUX_OVERLAY_DIR=overlays/flux
 FLUX_SSH_PUB_KEY=flux-ssh-key.pub
 
 download-flux:
-	@if [ -d "./${FLUX_DEPLOY_DIR}" ]; then rm -rf ./${FLUX_DEPLOY_DIR}; mkdir ./$(FLUX_DEPLOY_DIR); else mkdir ./$(FLUX_DEPLOY_DIR); fi
-	@curl -sL https://github.com/weaveworks/flux/archive/$(FLUX_VERSION).tar.gz | $(TAR) xz -f - -C ${FLUX_DEPLOY_DIR} flux-$(FLUX_VERSION)/deploy --strip-components=2
+	@if [ -d "./${FLUX_BASE_DIR}" ]; then rm -rf ./${FLUX_BASE_DIR}; mkdir -p ./$(FLUX_BASE_DIR); else mkdir -p ./$(FLUX_BASE_DIR); fi
+	@curl -sL https://github.com/weaveworks/flux/archive/$(FLUX_VERSION).tar.gz | $(TAR) xz -f - -C ${FLUX_BASE_DIR} flux-$(FLUX_VERSION)/deploy --strip-components=2
 
 create-overlays:
-	@cp kustomize/flux-kustomization.yaml $(FLUX_DEPLOY_DIR)/kustomization.yaml
-	@ENVIRONMENT_ID=$(ENVIRONMENT_ID) PROJECT_ID=$(PROJECT_ID) envsubst < kustomize/flux-deployment.yaml > overlays/deployment.yaml
+	@cp kustomize/flux-kustomization.yaml $(FLUX_BASE_DIR)/kustomization.yaml
+	@ENVIRONMENT_ID=$(ENVIRONMENT_ID) PROJECT_ID=$(PROJECT_ID) envsubst < kustomize/flux-deployment.yaml > $(FLUX_OVERLAY_DIR)/deployment.yaml
 
-kustomize: create-overlays
-	@kubectl kustomize overlays/ > manifests/00-flux.yaml
+kustomize-flux: create-overlays
+	@kubectl kustomize $(FLUX_OVERLAY_DIR) > manifests/00-flux.yaml
 
 install: kustomize
 	@kubectl apply -f manifests/
@@ -34,4 +35,46 @@ clone:
 	@gcloud source repos clone flux --project=$(PROJECT_ID)
 
 copy-manifests:
-	@for i in 00-efk 02-istio 03-ingress; do mkdir flux/$$i; cp ../$$i/manifests/*.yaml flux/$$i/; done
+	@for i in 00-efk 03-ingress; do mkdir flux/$$i; cp ../$$i/manifests/*.yaml flux/$$i/; done
+	@echo "Manifests copied to flux"
+	@echo "Now add and commit them"
+	@echo "cd flux"
+	@echo "git add ."
+	@echo "git commit -m 'Initial commit'"
+	@echo "git push -u origin master"
+	@echo "Now we wait for a Flux reconciliation loop. Max 5 minutes."
+	@echo kubectl -n kube-system logs -l name=flux -f
+
+helm-update:
+	@helm repo add 4armed http://helm.4armed.io
+	@helm repo update
+
+helm-fetch: helm-update
+	@helm fetch 4armed/curler
+	@tar xzf curler-*.tgz
+
+helm-reset:
+	@helm --tiller-namespace=helm reset
+	@kubectl delete ns helm
+
+curler-rm:
+	helm delete curler --purge
+
+curler-dir:
+	@if [ ! -d "flux/04-curler" ]; then mkdir flux/04-curler; fi
+
+helm-template: helm-fetch curler-dir
+	@helm template --name=curler --namespace=curler \
+			--set image=eu.gcr.io/$(PROJECT_ID)/curler-fe:v1 \
+			--set global.backend_image=eu.gcr.io/$(PROJECT_ID)/curler:v2 \
+			--set ingress.hostname=curler.$(ENVIRONMENT_ID).4armed.rocks \
+			--set replicaCount=1 \
+			--set global.redis.ip=$(REDIS_IP) \
+			--set ingress.enabled=false \
+			curler > base/curler.yaml
+
+curler: helm-template
+	@echo 
+	@cp kustomize/curler-namespace.yaml flux/04-curler/00-namespace.yaml
+	@cd flux; git add 04-curler; git commit -m 'Add curler'; git push -u origin master
+	@fluxctl sync

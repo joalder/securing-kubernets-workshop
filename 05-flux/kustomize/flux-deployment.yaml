@@ -8,8 +8,8 @@ spec:
       containers:
       - name: flux
         args:
-        - --memcached-service=
+        - --memcached-service=memcached
         - --ssh-keygen-dir=/var/fluxd/keygen
-        - --git-url=workshopper-${ENVIRONMENT_ID}@4armed.rocks@source.developers.google.com:2022/p/${PROJECT_ID}/r/flux
+        - --git-url=ssh://workshopper-${ENVIRONMENT_ID}@4armed.rocks@source.developers.google.com:2022/p/${PROJECT_ID}/r/flux
         - --git-branch=master
         - --listen-metrics=:3031
