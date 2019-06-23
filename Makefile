@@ -25,10 +25,17 @@ kibana-pf:
 	kubectl -n efk port-forward service/$(ELASTICSEARCH_CLUSTER_NAME)-kibana 5601
 
 prom-pf:
-	kubectl -n monitoring port-forward service/prometheus-k8s 9090
+	kubectl -n istio-system port-forward service/prometheus 9090
 
 grafana-pf:
-	kubectl -n monitoring port-forward service/grafana 3000
+	kubectl -n istio-system port-forward service/grafana 3000
+
+kiali-pf:
+	kubectl -n istio-system port-forward service/kiali 20001
+
+jaeger-pf:
+	kubectl -n istio-system port-forward $$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 15032:16686
+
 
 flux-logs:
 	kubectl -n kube-system logs -l name=flux -f

@@ -4,10 +4,15 @@ GRAFANA_DEPLOYMENT_FILE=manifests/08-grafana-deployment.yaml
 GRAFANA_CONFIGMAPS_FILE=grafana-deployment-configmaps.yaml
 GRAFANA_VOLUMES_FILE=grafana-deployment-volumes.yaml
 
+help:
+	@echo "install: Downloads Istio $(ISTIO_VERSION), installs the init CRDs, CNI networking and main Istio components\n"
+	@echo "enable-curler-sidecar: Labels the curler namespace to enable Istio sidear injection then \ndeletes the pods to force their recreation with the sidecar\n"
+	@echo "uninstall: Removes Istio from the cluster\n"
+
 download:
 	@curl -L https://git.io/getLatestIstio | sh -
 
-istio-init:
+istio-init: download
 	@helm template istio-$(ISTIO_VERSION)/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system --set certmanager.enabled=true > manifests/01-istio-init.yaml
 
 istio-cni:
@@ -40,27 +45,3 @@ enable-curler-sidecar:
 	@kubectl label namespace curler istio-injection=enabled
 	@kubectl -n curler delete pods -l app=nginx-ingress
 	@kubectl -n curler delete pods -l app.kubernetes.io/instance=curler
-
-istio-prometheus:
-	@kubectl -n monitoring create secret generic istio-prometheus-config --from-file=./istio-prometheus-scrape-config.yaml --dry-run -o yaml > manifests/04-istio-prometheus-config.yaml
-	@kubectl apply -f manifests/04-istio-prometheus-config.yaml
-	@kubectl apply -f manifests/05-prometheus.yaml
-
-# I'm not proud of this hacky echo stuff. There's probably a more make-like way to do it.
-grafana-dashboard-configmaps:
-	@cp kustomize/$(GRAFANA_CONFIGMAPS_FILE) overlays/
-	@cp kustomize/$(GRAFANA_VOLUMES_FILE) overlays/
-	@cat /dev/null > $(GRAFANA_DASHBOARD_CONFIGMAP_FILE)
-	@for dashboard in istio-1.2.0/install/kubernetes/helm/istio/charts/grafana/dashboards/*.json; do \
-		configmap_name=`basename $${dashboard} | sed -e 's/\.json//'`; \
-		echo "---" >> $(GRAFANA_DASHBOARD_CONFIGMAP_FILE) ; \
-		kubectl -n monitoring create configmap grafana-$${configmap_name} --from-file=$${dashboard} --dry-run -o yaml >> $(GRAFANA_DASHBOARD_CONFIGMAP_FILE) ; \
-		echo "        - mountPath: /grafana-dashboard-definitions/istio/$${configmap_name}\n          name: grafana-$${configmap_name}" >> overlays/$(GRAFANA_CONFIGMAPS_FILE) ; \
-		echo "      - configMap:\n          name: grafana-$${configmap_name}\n        name: grafana-$${configmap_name}" >> overlays/$(GRAFANA_VOLUMES_FILE) ; \
-	done
-	@kubectl kustomize overlays/ > $(GRAFANA_DEPLOYMENT_FILE)
-
-grafana-dashboard-install: grafana-dashboard-configmaps
-	@kubectl apply -f manifests/06-istio-grafana-dashboard-provisioning.yaml
-	@kubectl apply -f manifests/07-istio-grafana-dashboards.yaml
-	@kubectl apply -f manifests/08-grafana-deployment.yaml

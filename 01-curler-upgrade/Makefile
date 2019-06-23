@@ -1,3 +1,10 @@
+help:
+	@echo "deploy-v2: Upgrade existing cURLer app release to v2\n"
+	@echo "deploy-v1: Downgrade existing cURLer app release to v1\n"
+	@echo "curler-rm: Delete the curler release\n"
+	@echo "redeploy-v1: Perform a clean install of cURLer v1\n"
+	@echo "redeploy-v2: Perform a clean install of cURLer v2\n"
+
 include ../.env
 export
 
@@ -12,14 +19,8 @@ endif
 CURLER_IMAGE_V1=eu.gcr.io/$(PROJECT_ID)/curler:v1
 CURLER_IMAGE_V2=eu.gcr.io/$(PROJECT_ID)/curler:v2
 
-ls:
-	helm ls
-
-curler-delete:
-	helm delete curler --purge
-
 helm-update:
-	helm repo add 4armed http://helm.4armed.io
+	@helm repo add 4armed http://helm.4armed.io
 	helm repo update
 
 deploy-v1: helm-update
@@ -45,3 +46,9 @@ redeploy-v2: helm-update
 		--set replicaCount=1 \
 		--set global.redis.ip=$(REDIS_IP) \
 		4armed/curler
+
+ls:
+	@helm ls
+
+curler-rm:
+	helm delete curler --purge
