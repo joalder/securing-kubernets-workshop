@@ -1,3 +1,6 @@
+help:
+	@echo "shift-workload: Patches the curler-worker deployment's nodeSelector so that the pod moves to the secure node pool"
+
 include ../.env
 export
 

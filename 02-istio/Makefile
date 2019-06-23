@@ -6,7 +6,7 @@ GRAFANA_VOLUMES_FILE=grafana-deployment-volumes.yaml
 
 help:
 	@echo "install: Downloads Istio $(ISTIO_VERSION), installs the init CRDs, CNI networking and main Istio components\n"
-	@echo "enable-curler-sidecar: Labels the curler namespace to enable Istio sidear injection then \ndeletes the pods to force their recreation with the sidecar\n"
+	@echo "enable-curler-sidecar: Labels the curler namespace to enable Istio sidecar injection then \ndeletes the pods to force their recreation with the sidecar\n"
 	@echo "uninstall: Removes Istio from the cluster\n"
 
 download:

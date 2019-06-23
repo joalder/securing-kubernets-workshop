@@ -1,5 +1,8 @@
 help:
-	@echo "install: "
+	@echo "install: Generates kustomize overlays for static Ingress IP plus VirtualService definition \nfor curler. Deletes the nginx ingress if present. Deletes the current Istio ingress gateway service so that it is recreated \nwith our static IP"
+	@echo "kustomize: Generates kustomize overlays"
+	@echo "remove-nginx: Deletes the curler nginx ingress controller"
+	@echo "loadbalancer-ip: Prints static external IP for this environment"
 
 include ../.env
 export
