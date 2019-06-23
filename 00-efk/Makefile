@@ -10,7 +10,7 @@ install-operator:
 	kubectl apply -f manifests/00-elastic-operator.yaml
 	@echo "[*] wait for Operator to come up"
 	@echo "[*] use: kubectl -n elastic-system logs -f statefulset.apps/elastic-operator"
-	@echo "[*] then: make install"
+	@echo "[*] then: make install-es"
 
 install-es:
 	kubectl apply -f manifests/01-elastic-cluster.yaml
