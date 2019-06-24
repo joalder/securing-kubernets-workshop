@@ -64,7 +64,7 @@ helm-update:
 	@helm repo update
 
 helm-fetch: helm-update
-	@rm curler-*.tgz
+	@rm curler-*.tgz || exit 0
 	@helm fetch 4armed/curler
 	@tar xzf curler-*.tgz
 

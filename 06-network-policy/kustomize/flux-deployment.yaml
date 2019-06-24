@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flux
+spec:
+  template:
+    spec:
+      containers:
+      - name: flux
+        args:
+        - --memcached-service=memcached
+        - --ssh-keygen-dir=/var/fluxd/keygen
+        - --git-url=ssh://workshopper-${ENVIRONMENT_ID}@4armed.rocks@source.developers.google.com:2022/p/${PROJECT_ID}/r/flux
+        - --git-branch=master
+        - --listen-metrics=:3031
